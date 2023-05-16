@@ -1,0 +1,115 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model Client {
+  idClient     Int        @id
+  NomClient    String?    @db.VarChar(50)
+  PrenomClient String?    @db.VarChar(50)
+  email        String?    @db.VarChar(50)
+  mdp          String?    @db.VarChar(50)
+  numTlf       String?    @db.VarChar(50)
+  Commande     Commande[]
+  Evalue       Evalue[]
+}
+
+model Commande {
+  idCommande     Int            @id
+  prixTotal      Int?
+  address        String?        @db.VarChar(50)
+  deliveryNotes  String?        @db.VarChar(50)
+  idPerson       Int
+  idClient       Int
+  DeliveryPerson DeliveryPerson @relation(fields: [idPerson], references: [idPerson], onUpdate: Restrict, map: "Commande_ibfk_1")
+  Client         Client         @relation(fields: [idClient], references: [idClient], onUpdate: Restrict, map: "Commande_ibfk_2")
+  Concerne       Concerne[]
+
+  @@index([idClient], map: "idClient")
+  @@index([idPerson], map: "idPerson")
+}
+
+model Concerne {
+  idMenu     Int
+  idCommande Int
+  size       String?  @db.VarChar(50)
+  quantity   String?  @db.VarChar(50)
+  notes      String?  @db.VarChar(200)
+  Menu       Menu     @relation(fields: [idMenu], references: [idMenu], onUpdate: Restrict, map: "Concerne_ibfk_1")
+  Commande   Commande @relation(fields: [idCommande], references: [idCommande], onUpdate: Restrict, map: "Concerne_ibfk_2")
+
+  @@id([idMenu, idCommande])
+  @@index([idCommande], map: "idCommande")
+}
+
+model DeliveryPerson {
+  idPerson Int        @id
+  Nom      String?    @db.VarChar(50)
+  Prenom   String?    @db.VarChar(50)
+  numTel   String?    @db.VarChar(50)
+  Commande Commande[]
+}
+
+model Evalue {
+  idRestaurant Int
+  idClient     Int
+  note         Int?
+  commentaire  String?    @db.VarChar(100)
+  Restaurant   Restaurant @relation(fields: [idRestaurant], references: [idRestaurant], onUpdate: Restrict, map: "Evalue_ibfk_1")
+  Client       Client     @relation(fields: [idClient], references: [idClient], onUpdate: Restrict, map: "Evalue_ibfk_2")
+
+  @@id([idRestaurant, idClient])
+  @@index([idClient], map: "idClient")
+}
+
+model Menu {
+  idMenu       Int        @id
+  nomMenu      String?    @db.VarChar(50)
+  price        Int?
+  ingredients  String?    @db.VarChar(50)
+  calories     Int?
+  rating       Decimal?   @db.Decimal(15, 2)
+  imgMenu      String?    @db.VarChar(50)
+  idRestaurant Int
+  Concerne     Concerne[]
+  Restaurant   Restaurant @relation(fields: [idRestaurant], references: [idRestaurant], onUpdate: Restrict, map: "Menu_ibfk_1")
+
+  @@index([idRestaurant], map: "idRestaurant")
+}
+
+model Restaurant {
+  idRestaurant Int          @id
+  nom          String?      @db.VarChar(50)
+  img          String?      @db.VarChar(200)
+  address      String?      @db.VarChar(50)
+  mapWeb       String?      @db.VarChar(50)
+  map          String?      @db.VarChar(50)
+  fb           String?      @db.VarChar(50)
+  fbWeb        String?      @db.VarChar(50)
+  ig           String?      @db.VarChar(50)
+  igWeb        String?      @db.VarChar(50)
+  rating       String?      @db.VarChar(50)
+  Evalue       Evalue[]
+  Menu         Menu[]
+  appartient   appartient[]
+}
+
+model appartient {
+  idRestaurant Int
+  idType       Int
+  Restaurant   Restaurant @relation(fields: [idRestaurant], references: [idRestaurant], onUpdate: Restrict, map: "appartient_ibfk_1")
+  type         type       @relation(fields: [idType], references: [idType], onUpdate: Restrict, map: "appartient_ibfk_2")
+
+  @@id([idRestaurant, idType])
+  @@index([idType], map: "idType")
+}
+
+model type {
+  idType      Int          @id
+  LibelleType String?      @db.VarChar(50)
+  appartient  appartient[]
+}
