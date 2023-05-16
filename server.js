@@ -6,7 +6,8 @@ const app = express();
 app.use(express.json());
 
 // API Routes
-app.use('/api/restaurants', require('./routes/restaurantRoutes'));
+app.use('/restaurants', require('./routes/restaurantRoutes'));
+
 
 
 // Error handler middleware

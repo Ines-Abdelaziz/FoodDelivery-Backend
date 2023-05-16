@@ -8,10 +8,32 @@ const getAllRestaurants = async () => {
     }
 
 // Retrieve restaurant by ID
-const getRestaurantById = async (id) => {
-    return await prisma.restaurant.findUnique({
-        where: { id: parseInt(id) },
+const getMenuById = async (id) => {
+    return await prisma.menu.findMany({
+        where: { idRestaurant: parseInt(id) },
     });
     }
+async function createCommand(id, totalPrice, products) {
+try {
+    // Store the command in the database
+    const command = await prisma.command.create({
+    data: {
+        id,
+        totalPrice,
+        products: {
+        create: products.map((product) => ({
+            name: product.name,
+            price: product.price,
+        })),
+        },
+    },
+    });
 
-module.exports = { getAllRestaurants, getRestaurantById };
+    return command;
+} catch (error) {
+    console.error('Error storing command:', error);
+    throw new Error('Error storing command');
+}
+}
+
+module.exports = { getAllRestaurants, getMenuById };
