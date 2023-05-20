@@ -26,30 +26,33 @@ exports.getMenu = async (req, res) => {
     }
 }
 
-exports async function validateCommand(req, res){
+exports.validateCommand=async function validateCommand(req, res){
     const {idCommande, prixTotal, address, deliveryNotes, idClient, Concerne} = req.body;
     try{
         if (!idCommande || !prixTotal || !address || !idClient || !Concerne || !Array.isArray(Concerne)) {
             return res.status(400).json({ error: 'Invalid command data' });
         }
         const command = await prisma.command.create({
-            data:{
-                idCommande, 
-                prixTotal, 
-                address, 
-                deliveryNotes, 
-                idClient, 
-                Concerne :{
-                    create: Concerne.map((product)=>{
-                        idMenu : product.idMenu,
-                        idCommande : idCommande,
-                        size : product.size,
-                        quantity : product.quantity,
-                        notes : products.notes,
-                    })
-                }
-            }
+          // Store the command in the database
+            data: {
+                idCommande,
+                prixTotal,
+                address,
+                deliveryNotes,
+                idClient,
+                Concerne: {
+                    create: Concerne.map((product) => ({
+                        idMenu: product.idMenu,
+                        idCommande: idCommande,
+                        size: product.size,
+                        quantity: product.quantity,
+                        notes: product.notes,
+                       
+                    })),
+                },
+            },
         });
+      
         res.json(command);
     } catch (error){
         console.error('Error storing command:', error);
@@ -57,6 +60,5 @@ exports async function validateCommand(req, res){
     }
 }
 module.exports = exports;
-
 
 
