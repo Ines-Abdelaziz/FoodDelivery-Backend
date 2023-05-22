@@ -1,4 +1,4 @@
-const { getAllRestaurants, getRestaurantById, getMenuById } = require('../models/Restaurant');
+const { getAllRestaurants, getMenuById } = require('../models/Restaurant');
 
 
 // Get all restaurants
@@ -26,7 +26,7 @@ exports.getMenu = async (req, res) => {
     }
 }
 
-exports async function validateCommand(req, res){
+exports.validateCommand = async (req, res) => {
     const {idCommande, prixTotal, address, deliveryNotes, idClient, Concerne} = req.body;
     try{
         if (!idCommande || !prixTotal || !address || !idClient || !Concerne || !Array.isArray(Concerne)) {
@@ -39,17 +39,18 @@ exports async function validateCommand(req, res){
                 address, 
                 deliveryNotes, 
                 idClient, 
-                Concerne :{
-                    create: Concerne.map((product)=>{
-                        idMenu : product.idMenu,
-                        idCommande : idCommande,
-                        size : product.size,
-                        quantity : product.quantity,
-                        notes : products.notes,
-                    })
+                Concerne : {
+                    create: Concerne.map((item)=>({
+                        idMenu:id,
+                        idCommande: idCommande,
+                        size: size,
+                        quantity: quantity,
+                        notes: notes,
+                    }))
                 }
             }
         });
+              
         res.json(command);
     } catch (error){
         console.error('Error storing command:', error);
