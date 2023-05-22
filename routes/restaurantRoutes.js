@@ -11,4 +11,6 @@ router.get('/:id/menu', RestaurantController.getMenu);
 //Validate Commands
 router.post('/command', RestaurantController.validateCommand);
 
+router.get('/menu/:id',RestaurantController.getDetails);
+
 module.exports = router;
