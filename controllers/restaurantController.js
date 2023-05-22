@@ -1,9 +1,12 @@
 const { getAllRestaurants, getMenuById } = require('../models/Restaurant');
+const { getAllRestaurants,getMenuById} = require('../models/Restaurant');
+
 
 
 // Get all restaurants
 exports.getAllRestaurants = async (req, res) => {
     try {
+        
         const restaurants = await getAllRestaurants();
         res.json(restaurants);
     } catch (err) {
@@ -27,30 +30,33 @@ exports.getMenu = async (req, res) => {
 }
 
 exports.validateCommand = async (req, res) => {
+
     const {idCommande, prixTotal, address, deliveryNotes, idClient, Concerne} = req.body;
     try{
         if (!idCommande || !prixTotal || !address || !idClient || !Concerne || !Array.isArray(Concerne)) {
             return res.status(400).json({ error: 'Invalid command data' });
         }
         const command = await prisma.command.create({
-            data:{
-                idCommande, 
-                prixTotal, 
-                address, 
-                deliveryNotes, 
-                idClient, 
-                Concerne : {
-                    create: Concerne.map((item)=>({
-                        idMenu:id,
+                  // Store the command in the database
+            data: {
+                idCommande,
+                prixTotal,
+                address,
+                deliveryNotes,
+                idClient,
+                Concerne: {
+                    create: Concerne.map((product) => ({
+                        idMenu: product.idMenu,
                         idCommande: idCommande,
-                        size: size,
-                        quantity: quantity,
-                        notes: notes,
-                    }))
-                }
-            }
+                        size: product.size,
+                        quantity: product.quantity,
+                        notes: product.notes,
+                       
+                    })),
+                },
+            },
         });
-              
+      
         res.json(command);
     } catch (error){
         console.error('Error storing command:', error);
@@ -58,6 +64,5 @@ exports.validateCommand = async (req, res) => {
     }
 }
 module.exports = exports;
-
 
 
