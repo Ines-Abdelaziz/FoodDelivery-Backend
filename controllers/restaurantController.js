@@ -1,9 +1,10 @@
-const { getAllRestaurants, getRestaurantById, getMenuById } = require('../models/Restaurant');
+const { getAllRestaurants,getMenuById} = require('../models/Restaurant');
 
 
 // Get all restaurants
 exports.getAllRestaurants = async (req, res) => {
     try {
+        
         const restaurants = await getAllRestaurants();
         res.json(restaurants);
     } catch (err) {
