@@ -6,7 +6,7 @@ const RestaurantController = require('../controllers/restaurantController');
 router.get('/', RestaurantController.getAllRestaurants);
 
 // Get a restaurant by ID
-router.get('/:id/menu', RestaurantController.getMenu);
+router.get('/:id', RestaurantController.getMenu);
 
 //Validate Commands
 router.post('/command', RestaurantController.validateCommand);
