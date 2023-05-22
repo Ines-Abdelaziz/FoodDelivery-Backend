@@ -1,7 +1,4 @@
 const { getAllRestaurants, getMenuById } = require('../models/Restaurant');
-const { getAllRestaurants,getMenuById} = require('../models/Restaurant');
-
-
 
 // Get all restaurants
 exports.getAllRestaurants = async (req, res) => {
@@ -28,7 +25,18 @@ exports.getMenu = async (req, res) => {
         res.status(500).send('Server error');
     }
 }
-
+exports.getDetails = async (req, res) => {
+    try {
+        const menu = await getMenuDetails(req.params.id);
+        if (!menu) {
+            return res.status(404).json({ message: 'Menus not found' });
+        }
+        res.json(menu);
+    } catch (err) {
+        console.error(err.message);
+        res.status(500).send('Server error');
+    }
+}
 exports.validateCommand = async (req, res) => {
 
     const {idCommande, prixTotal, address, deliveryNotes, idClient, Concerne} = req.body;
