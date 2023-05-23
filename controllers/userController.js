@@ -29,7 +29,10 @@ module.exports = {
 
   login: async (req, res) => {
     try {
-      const { mail, pwd } = req.params;
+      const { mail, pwd } = req.body;
+      if(!mail){
+        return res.status(404).json({user:req.body, params:req.params, message: 'No mail found' });
+      }
 
       // Find user by email
       const user = await User.findUserByEmail(mail);
@@ -39,7 +42,7 @@ module.exports = {
 
       // Check password
       if (user.mdp !== pwd) {
-        return res.status(401).json({user:req.params, message: 'Invalid credentials'});
+        return res.status(401).json({user:req.body, message: 'Invalid credentials'});
       }
 
       res.status(200).json({ message: 'Authentication successful', user });
