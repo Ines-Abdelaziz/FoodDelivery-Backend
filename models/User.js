@@ -15,8 +15,8 @@ module.exports = {
   },
 
   findUserByEmail: async (email) => {
-    return await prisma.Client.findUnique({
-      where: { email },
+    return await prisma.Client.findFirst({
+      where: { email:email },
     });
   },
 };
