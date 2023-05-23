@@ -5,8 +5,8 @@ module.exports = {
   createUser: async (userData) => {
     return await prisma.Client.create({
       data: {
-        nomClient: userData.nom,
-        prenomClient: userData.prenom,
+        nomClient: userData.nomClient,
+        prenomClient: userData.prenomClient,
         email: userData.email,
         mdp: userData.mdp,
         numTlf: userData.numTlf,
@@ -15,7 +15,7 @@ module.exports = {
   },
 
   findUserByEmail: async (email) => {
-    return await prisma.Client.findUnique({
+    return await prisma.Client.findFirst({
       where: { email },
     });
   },

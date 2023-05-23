@@ -3,7 +3,7 @@ const User = require('../models/User');
 module.exports = {
   register: async (req, res) => {
     try {
-      const { nom, prenom, email, mdp, numTlf } = req.body;
+      const { nomClient, prenomClient, email, mdp, numTlf } = req.body;
 
       // Check if user already exists
       const existingUser = await User.findUserByEmail(email);
@@ -13,8 +13,8 @@ module.exports = {
 
       // Create new user
       const newUser = await User.createUser({
-        nom,
-        prenom,
+        nomClient,
+        prenomClient,
         email,
         mdp,
         numTlf,
