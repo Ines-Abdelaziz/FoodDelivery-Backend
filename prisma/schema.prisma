@@ -8,7 +8,7 @@ datasource db {
 }
 
 model Client {
-  idClient     Int        @id
+  idClient     Int        @id @default(autoincrement())
   NomClient    String?    @db.VarChar(50)
   PrenomClient String?    @db.VarChar(50)
   email        String?    @db.VarChar(50)
@@ -19,7 +19,7 @@ model Client {
 }
 
 model Commande {
-  idCommande     Int            @id
+  idCommande     Int            @id @default(autoincrement())
   prixTotal      Int?
   address        String?        @db.VarChar(50)
   deliveryNotes  String?        @db.VarChar(50)
@@ -34,7 +34,7 @@ model Commande {
 }
 
 model Concerne {
-  idMenu     Int
+  idMenu     Int 
   idCommande Int
   size       String?  @db.VarChar(50)
   quantity   String?  @db.VarChar(50)
@@ -47,7 +47,7 @@ model Concerne {
 }
 
 model DeliveryPerson {
-  idPerson Int        @id
+  idPerson Int        @id @default(autoincrement())
   Nom      String?    @db.VarChar(50)
   Prenom   String?    @db.VarChar(50)
   numTel   String?    @db.VarChar(50)
@@ -67,7 +67,7 @@ model Evalue {
 }
 
 model Menu {
-  idMenu       Int        @id
+  idMenu       Int        @id @default(autoincrement())
   nomMenu      String?    @db.VarChar(50)
   price        Int?
   ingredients  String?    @db.VarChar(50)
@@ -82,7 +82,7 @@ model Menu {
 }
 
 model Restaurant {
-  idRestaurant Int          @id
+  idRestaurant Int          @id @default(autoincrement())
   nom          String?      @db.VarChar(50)
   img          String?      @db.VarChar(200)
   address      String?      @db.VarChar(50)
