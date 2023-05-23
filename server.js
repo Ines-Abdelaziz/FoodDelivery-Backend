@@ -9,7 +9,7 @@ app.use(express.json());
 app.use(cors())
 // API Routes
 app.use('/restaurants', require('./routes/restaurantRoutes'));
-app.use('users', require('./routes/userRoutes'));
+app.use('/users', require('./routes/userRoutes'));
 app.get('/', (req, res) => {
   res.send('Welcome to the API');
 });
