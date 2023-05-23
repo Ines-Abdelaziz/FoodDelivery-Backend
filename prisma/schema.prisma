@@ -11,7 +11,7 @@ model Client {
   idClient     Int        @id @default(autoincrement())
   NomClient    String?    @db.VarChar(50)
   PrenomClient String?    @db.VarChar(50)
-  email        String?    @db.VarChar(50) @unique
+  email        String?    @db.VarChar(50)
   mdp          String?    @db.VarChar(50)
   numTlf       String?    @db.VarChar(50)
   Commande     Commande[]
