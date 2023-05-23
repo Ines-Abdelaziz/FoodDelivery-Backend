@@ -39,7 +39,7 @@ module.exports = {
 
       // Check password
       if (user.mdp !== pwd) {
-        return res.status(401).json({user:'user', message: 'Invalid credentials'});
+        return res.status(401).json({user:user, message: 'Invalid credentials'});
       }
 
       res.status(200).json({ message: 'Authentication successful', user });
