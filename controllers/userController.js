@@ -29,17 +29,17 @@ module.exports = {
 
   login: async (req, res) => {
     try {
-      const { email, mdp } = req.body;
+      const { mail, pwd } = req.body;
 
       // Find user by email
-      const user = await User.findUserByEmail(email);
+      const user = await User.findUserByEmail(mail);
       if (!user) {
         return res.status(404).json({ message: 'User not found' });
       }
 
       // Check password
-      if (user.mdp !== mdp) {
-        return res.status(401).json({ message: 'Invalid credentials', email, mdp });
+      if (user.mdp !== pwd) {
+        return res.status(401).json({ message: 'Invalid credentials '});
       }
 
       res.status(200).json({ message: 'Authentication successful', user });

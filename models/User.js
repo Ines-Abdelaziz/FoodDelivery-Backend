@@ -14,9 +14,9 @@ module.exports = {
     });
   },
 
-  findUserByEmail: async (email) => {
+  findUserByEmail: async (mail) => {
     return await prisma.Client.findFirst({
-      where: { email:email },
+      where: { email:mail },
     });
   },
 };
