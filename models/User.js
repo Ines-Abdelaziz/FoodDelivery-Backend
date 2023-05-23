@@ -16,7 +16,7 @@ module.exports = {
 
   findUserByEmail: async (mail) => {
     return await prisma.Client.findUnique({
-      where: { email:mail },
+      where: { mail:email },
     });
   },
 };
