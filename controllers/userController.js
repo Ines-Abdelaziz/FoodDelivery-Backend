@@ -39,7 +39,7 @@ module.exports = {
 
       // Check password
       if (user.mdp !== pwd) {
-        return res.status(401).json({ message: 'Invalid credentials '});
+        return res.status(401).json({mail:mail, password:pwd, message: 'Invalid credentials '});
       }
 
       res.status(200).json({ message: 'Authentication successful', user });
@@ -48,4 +48,17 @@ module.exports = {
       res.status(500).json({ message: 'Internal server error' });
     }
   },
+
+  getUser = async (req, res) => {
+    try {
+        const user = await getUser(req.params.email);
+        if (!user) {
+            return res.status(404).json({ message: 'User not found' });
+        }
+        res.json(user);
+    } catch (err) {
+        console.error(err.message);
+        res.status(500).send('Server error');
+    }
+}
 };
