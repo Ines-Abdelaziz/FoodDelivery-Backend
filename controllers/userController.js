@@ -30,6 +30,9 @@ module.exports = {
   login: async (req, res) => {
     try {
       const { mail, pwd } = req.body;
+      if(!mail){
+        return res.status(404).json({ message: 'No mail found' });
+      }
 
       // Find user by email
       const user = await User.findUserByEmail(mail);
