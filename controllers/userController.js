@@ -8,7 +8,7 @@ module.exports = {
       // Check if user already exists
       const existingUser = await User.findUserByEmail(email);
       if (existingUser) {
-        return res.status(409).json({ message: 'User already exists' });
+        return res.status(409).json({ message: 'User already exists ' });
       }
 
       // Create new user
