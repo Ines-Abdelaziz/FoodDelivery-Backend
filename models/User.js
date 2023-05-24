@@ -1,12 +1,12 @@
 const { PrismaClient } = require('@prisma/client');
 const prisma = new PrismaClient();
-
 module.exports = {
   createUser: async (userData) => {
     return await prisma.Client.create({
       data: {
-        nomClient: userData.nomClient,
-        prenomClient: userData.prenomClient,
+        idClient :userData.idClient,
+        NomClient: userData.nomClient,
+        PrenomClient: userData.prenomClient,
         email: userData.email,
         mdp: userData.mdp,
         numTlf: userData.numTlf,
