@@ -42,7 +42,7 @@ module.exports = {
         return res.status(401).json({user:req.body, message: 'Invalid credentials'});
       }
 
-      res.status(200).json({ message: 'Authentication successful', user });
+      res.status(200).json({user });
     } catch (error) {
       console.error(error);
       res.status(500).json({ message: 'Internal server error' });
