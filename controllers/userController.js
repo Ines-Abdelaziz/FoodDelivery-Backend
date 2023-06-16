@@ -3,7 +3,7 @@ module.exports = {
   register: async (req, res) => {
     try {
       
-      const { idClient, nomClient, prenomClient, email, mdp, numTlf } = req.body;
+      const { idClient, NomClient, PrenomClient, email, mdp, numTlf } = req.body;
       // Check if user already exists
       const existingUser = await User.findUserByEmail(email);
       if (existingUser) {
@@ -14,8 +14,8 @@ module.exports = {
       console.log(req.body)
       const newUser = await User.createUser({
         idClient,
-        nomClient,
-        prenomClient,
+        NomClient,
+        PrenomClient,
         email,
         mdp,
         numTlf,
@@ -47,7 +47,7 @@ module.exports = {
         return res.status(401).json({user:req.body, message: 'Invalid credentials'});
       }
 
-      res.status(200).json({user });
+      res.status(200).json(user);
     } catch (error) {
       console.error(error);
       res.status(500).json({ message: 'Internal server error' });

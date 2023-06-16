@@ -5,8 +5,8 @@ module.exports = {
     return await prisma.Client.create({
       data: {
         idClient :userData.idClient,
-        NomClient: userData.nomClient,
-        PrenomClient: userData.prenomClient,
+        NomClient: userData.NomClient,
+        PrenomClient: userData.PrenomClient,
         email: userData.email,
         mdp: userData.mdp,
         numTlf: userData.numTlf,
