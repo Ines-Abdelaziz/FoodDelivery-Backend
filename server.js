@@ -10,6 +10,7 @@ app.use(cors())
 // API Routes
 app.use('/restaurants', require('./routes/restaurantRoutes'));
 app.use('/users', require('./routes/userRoutes'));
+app.use('/order', require('./routes/orderRoutes'));
 app.get('/', (req, res) => {
   res.send('Welcome to the API');
 });

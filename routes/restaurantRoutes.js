@@ -8,9 +8,7 @@ router.get('/', RestaurantController.getAllRestaurants);
 // Get a restaurant by ID
 router.get('/:id', RestaurantController.getMenu);
 
-//Validate Commands
-router.post('/command', RestaurantController.validateCommand);
-
+//get menu by id
 router.get('/menu/:id',RestaurantController.getDetails);
 
 module.exports = router;

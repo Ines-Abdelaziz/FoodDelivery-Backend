@@ -86,6 +86,7 @@ model Restaurant {
   nom          String?      @db.VarChar(50)
   img          String?      @db.VarChar(200)
   address      String?      @db.VarChar(50)
+  phone        String?      @db.VarChar(50)
   mapWeb       String?      @db.VarChar(50)
   map          String?      @db.VarChar(50)
   fb           String?      @db.VarChar(50)

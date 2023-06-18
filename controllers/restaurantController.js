@@ -38,11 +38,15 @@ exports.getDetails = async (req, res) => {
 }
 exports.validateCommand = async (req, res) => {
 
-    const {idCommande, prixTotal, address, deliveryNotes, idClient, Concerne} = req.body;
+    const {prixTotal, address, deliveryNotes, idClient, orders} = req.body;
     try{
-        if (!idCommande || !prixTotal || !address || !idClient || !Concerne || !Array.isArray(Concerne)) {
+        if (!prixTotal || !address || !idClient || !orders || !Array.isArray(orders)) {
             return res.status(400).json({ error: 'Invalid command data' });
         }
+        if(prixTotal<0){
+            return res.status(400).json({ error: 'Invalid command data' });
+        }
+        
         const command = await prisma.command.create({
                   // Store the command in the database
             data: {
