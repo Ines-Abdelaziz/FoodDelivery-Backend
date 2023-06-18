@@ -4,7 +4,6 @@ module.exports = {
   createUser: async (userData) => {
     return await prisma.Client.create({
       data: {
-        idClient :userData.idClient,
         NomClient: userData.NomClient,
         PrenomClient: userData.PrenomClient,
         email: userData.email,

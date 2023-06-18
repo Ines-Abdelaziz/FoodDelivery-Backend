@@ -3,7 +3,7 @@ module.exports = {
   register: async (req, res) => {
     try {
       
-      const { idClient, NomClient, PrenomClient, email, mdp, numTlf } = req.body;
+      const {NomClient, PrenomClient, email, mdp, numTlf } = req.body;
       // Check if user already exists
       const existingUser = await User.findUserByEmail(email);
       if (existingUser) {
@@ -13,7 +13,6 @@ module.exports = {
       // Create new user
       console.log(req.body)
       const newUser = await User.createUser({
-        idClient,
         NomClient,
         PrenomClient,
         email,
@@ -22,7 +21,6 @@ module.exports = {
       });
 
       res.status(201).json({ message: 'Registration successful', user: newUser });
-      idClient=idClient+1;
     } catch (error) {
       console.error(error);
       res.status(500).json({ message: 'Internal server error', error:error });
