@@ -8,7 +8,8 @@ module.exports={
                 prixTotal,
                 address,
                 deliveryNotes,
-                idClient,  
+                idClient,
+                idPerson:1,  
                 Concerne:{
                     create:Concerne.map((item) => ({
                       idMenu: item.idMenu,

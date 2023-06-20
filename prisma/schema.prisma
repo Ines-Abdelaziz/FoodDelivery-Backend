@@ -36,9 +36,9 @@ model Commande {
 model Concerne {
   idMenu     Int 
   idCommande Int
-  size       String?  @db.VarChar(50)
-  quantity   String?  @db.VarChar(50)
-  notes      String?  @db.VarChar(200)
+  size       Int
+  quantity   Int
+  notes      String?  @db.VarChar(500)
   Menu       Menu     @relation(fields: [idMenu], references: [idMenu], onUpdate: Restrict, map: "Concerne_ibfk_1")
   Commande   Commande @relation(fields: [idCommande], references: [idCommande], onUpdate: Restrict, map: "Concerne_ibfk_2")
 
