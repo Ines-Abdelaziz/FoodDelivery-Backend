@@ -11,9 +11,6 @@ module.exports={
             idPerson:orderData.idPerson,
             idClient:orderData.idClient,
           },
-          include: {
-            Items: true, // Include the associated items in the response
-          },
         });
 
     },
