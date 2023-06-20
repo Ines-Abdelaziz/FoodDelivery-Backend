@@ -27,20 +27,20 @@ model Commande {
   idClient       Int
   DeliveryPerson DeliveryPerson @relation(fields: [idPerson], references: [idPerson], onUpdate: Restrict, map: "Commande_ibfk_1")
   Client         Client         @relation(fields: [idClient], references: [idClient], onUpdate: Restrict, map: "Commande_ibfk_2")
-  Concerne       Concerne[]
+  Items          Items[]
 
   @@index([idClient], map: "idClient")
   @@index([idPerson], map: "idPerson")
 }
 
-model Concerne {
+model Items {
   idMenu     Int 
   idCommande Int
-  size       Int
+  size       String?  @db.VarChar(50)
   quantity   Int
-  notes      String?  @db.VarChar(500)
-  Menu       Menu     @relation(fields: [idMenu], references: [idMenu], onUpdate: Restrict, map: "Concerne_ibfk_1")
-  Commande   Commande @relation(fields: [idCommande], references: [idCommande], onUpdate: Restrict, map: "Concerne_ibfk_2")
+  notes      String?  @db.VarChar(200)
+  Menu       Menu     @relation(fields: [idMenu], references: [idMenu], onUpdate: Restrict, map: "Items_ibfk_1")
+  Commande   Commande @relation(fields: [idCommande], references: [idCommande], onUpdate: Restrict, map: "Items_ibfk_2")
 
   @@id([idMenu, idCommande])
   @@index([idCommande], map: "idCommande")
@@ -75,7 +75,7 @@ model Menu {
   rating       Decimal?   @db.Decimal(15, 2)
   imgMenu      String?    @db.VarChar(50)
   idRestaurant Int
-  Concerne     Concerne[]
+  Items     Items[]
   Restaurant   Restaurant @relation(fields: [idRestaurant], references: [idRestaurant], onUpdate: Restrict, map: "Menu_ibfk_1")
 
   @@index([idRestaurant], map: "idRestaurant")

@@ -1,28 +1,37 @@
 const { PrismaClient } = require('@prisma/client');
 const prisma = new PrismaClient();
 module.exports={
-    createOrder : async (orderData) => {
-        const { idClient, prixTotal, address, deliveryNotes, Concerne } = orderData;
+    createCommande : async (orderData) => {
         return await prisma.Commande.create({
-            data: {
-                prixTotal,
-                address,
-                deliveryNotes,
-                idClient,
-                idPerson:1,  
-                Concerne:{
-                    create:Concerne.map((item) => ({
-                      idMenu: item.idMenu,
-                      size: item.size,
-                      quantity: item.quantity,
-                      notes: item.notes
-                    }))
-                }       
-            },
-            include: {
-              Concerne: true, // Include the created items in the response
-            },
-          });
+          data: {
+            idCommande:orderData.idCommande,
+            prixTotal:orderData.prixTotal,
+            address:orderData.address,
+            deliveryNotes:orderData.deliveryNotes,
+            idPerson:orderData.idPerson,
+            idClient:orderData.idClient,
+          },
+          include: {
+            Items: true, // Include the associated items in the response
+          },
+        });
 
+    },
+
+    createItems: async(data) => {
+      const{ Items, idCommande}=data;
+      return await Promise.all(
+        Items.map((item) =>
+          prisma.Items.create({
+            data: {
+              idMenu: item.idMenu,
+              idCommande: idCommande,
+              size: item.size,
+              quantity: item.quantity,
+              notes: item.notes,
+            },
+          })
+        )
+      );
     }
 };
