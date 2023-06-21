@@ -5,7 +5,16 @@ exports.getAllRestaurants = async (req, res) => {
     try {
         
         const restaurants = await getAllRestaurants();
-        res.json(restaurants);
+        const restaurantList = restaurants.map((restaurant) => {
+            const typeNames = restaurant.appartient.map((item) => item.type.LibelleType);
+            delete restaurant.appartient;
+            const type=typeNames.join(',');
+            return {
+              ...restaurant,
+              type,
+            };
+          });
+        res.json(restaurantList);
     } catch (err) {
         console.error(err.message);
         res.status(500).send('Server error');

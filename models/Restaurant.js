@@ -4,7 +4,15 @@ const prisma = new PrismaClient();
 
 // Retrieve all restaurants
 const getAllRestaurants = async () => {
-    return await prisma.restaurant.findMany();
+    return await prisma.restaurant.findMany({
+        include: {
+          appartient: {
+            include: {
+              type: true,
+            },
+          },
+        },
+      });
     }
 
 // Retrieve Menu by ID restaurant
@@ -20,6 +28,19 @@ const getDetails = async (id) => {
         where: { idMenu: parseInt(id) },
     });
     }
+const restaurantWithTypes = async (id) => {
+    return await prisma.restaurant.findUnique({
+        where: { idRestaurant: id },
+        include: {
+            appartient: {
+            include: {
+                type: true,
+            },
+            },
+        },
+    })
+}
+      
     
 async function createCommand(id, totalPrice, products) {
 try {
