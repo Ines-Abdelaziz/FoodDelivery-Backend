@@ -16,7 +16,7 @@ module.exports={
     },
 
     createItems: async(data) => {
-      const{ Items, idCommande}=data;
+      const{ Items, idCommande}=data.orderData;
       return await Promise.all(
         Items.map((item) =>
           prisma.Items.create({

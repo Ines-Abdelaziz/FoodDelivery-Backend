@@ -13,7 +13,7 @@ module.exports = {
           return res.status(400).json({ error: 'Invalid total price' });
         }
         const orderData=req.body;
-        const createdCommande = await OrderModel.createCommande(orderData);
+        const createdOrder = await OrderModel.createCommande(orderData);
         const itemsData = {orderData};
         const createdItems = await OrderModel.createItems(itemsData);
           // Return a success response with the created order and items

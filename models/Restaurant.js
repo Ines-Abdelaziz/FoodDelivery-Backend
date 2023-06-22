@@ -21,6 +21,9 @@ const getMenu = async (id) => {
         where: { idRestaurant: parseInt(id) },
     });     
     }
+const getCommands= async (id) => {
+    return await prisma.Commande.findMany();     
+    }
 
 // Retrieve restaurant by ID
 const getDetails = async (id) => {

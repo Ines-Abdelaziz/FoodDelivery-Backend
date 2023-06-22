@@ -33,6 +33,18 @@ exports.getMenu = async (req, res) => {
         res.status(500).send('Server error');
     }
 }
+exports.getCommands = async (req, res) => {
+    try {
+        const menu = await getCommands(req.params.id);
+        if (!menu) {
+            return res.status(404).json({ message: 'commands not found' });
+        }
+        res.json(menu);
+    } catch (err) {
+        console.error(err.message);
+        res.status(500).send('Server error');
+    }
+}
 exports.getDetails = async (req, res) => {
     try {
         const menu = await getDetails(req.params.id);
