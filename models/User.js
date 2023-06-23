@@ -20,4 +20,11 @@ module.exports = {
       } },
     });
   },
+  getinfo:async(userId)=>{
+    return await prisma.Client.findFirst({where:
+      {idClient:{
+        equals:parseInt(userId)
+      } },
+    })
+  }
 };
