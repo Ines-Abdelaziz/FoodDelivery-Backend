@@ -68,4 +68,33 @@ try {
 }
 }
 
-module.exports = { getAllRestaurants, getMenu, getDetails };
+
+module.exports = { getAllRestaurants, getMenu, getDetails,
+
+addRating: async (RatingData) => {
+const {idRestaurant, idClient, rating, comment } = RatingData;
+return await  prisma.Evalue.create({
+    data: {
+        idRestaurant: idRestaurant,
+        idClient: idClient,
+        note:rating,
+        commentaire:comment,
+    },
+});
+},
+getRestaurantRatings: async (id) => {
+    return await prisma.Evalue.findMany({
+        where: { idRestaurant:parseInt(id) },
+    });
+},
+updateRating: async (idRestaurant,rating) => {
+    return await prisma.restaurant.update({
+        where: { idRestaurant:parseInt(idRestaurant) },
+        data: {
+            rating:rating,
+        },
+    });
+},
+
+}
+

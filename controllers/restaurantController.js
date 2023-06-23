@@ -1,4 +1,5 @@
 const { getAllRestaurants, getMenu, getDetails} = require('../models/Restaurant');
+const RestaurantModel = require('../models/Restaurant');
 
 // Get all restaurants
 exports.getAllRestaurants = async (req, res) => {
@@ -57,44 +58,42 @@ exports.getDetails = async (req, res) => {
         res.status(500).send('Server error');
     }
 }
-exports.validateCommand = async (req, res) => {
+exports.addRating = async (req, res) => {
+    const { idClient,rating, comment } = req.body;
+    try {
+        if (!rating || !comment) {
+            return res.status(400).json({ error: 'Invalid rating data' });
+        }
+    RatingData=req.body;
+    RatingData.idRestaurant=parseInt(req.params.id);
+    const createdRating = await RestaurantModel.addRating(RatingData);
+    const ratings = await RestaurantModel.getRestaurantRatings(req.params.id);
+    const sumOfRatings = ratings.reduce((total, rating) => total + rating.note, 0);
+     const ratingsSum = ratings.reduce((acc, rating) => acc + rating.note, 0);
+     const generalRating = ratingsSum / ratings.length;
+     await RestaurantModel.updateRating(req.params.id, generalRating);
+    res.status(200).json({ message: 'Rating made successfully', rating: createdRating });
+    } catch (error) {
+        console.error('Error storing rating:', error);
+        res.status(500).json({ error: 'Error storing rating' });
+    }
 
-    const {prixTotal, address, deliveryNotes, idClient, orders} = req.body;
-    try{
-        if (!prixTotal || !address || !idClient || !orders || !Array.isArray(orders)) {
-            return res.status(400).json({ error: 'Invalid command data' });
+    
+
+}
+exports.getRatings = async (req, res) => {
+    try {
+        const ratings = await RestaurantModel.getRestaurantRatings(req.params.id);
+        if (!ratings) {
+            return res.status(404).json({ message: 'Ratings not found' });
         }
-        if(prixTotal<0){
-            return res.status(400).json({ error: 'Invalid command data' });
-        }
-        
-        const command = await prisma.command.create({
-                  // Store the command in the database
-            data: {
-                idCommande,
-                prixTotal,
-                address,
-                deliveryNotes,
-                idClient,
-                Concerne: {
-                    create: Concerne.map((product) => ({
-                        idMenu: product.idMenu,
-                        idCommande: idCommande,
-                        size: product.size,
-                        quantity: product.quantity,
-                        notes: product.notes,
-                       
-                    })),
-                },
-            },
-        });
-      
-        res.json(command);
-    } catch (error){
-        console.error('Error storing command:', error);
-        res.status(500).json({ error: 'Error storing command' });
+        res.status(200).json(ratings);
+    } catch (err) {
+        console.error(err.message);
+        res.status(500).send('Server error');
     }
 }
+
 module.exports = exports;
 
 

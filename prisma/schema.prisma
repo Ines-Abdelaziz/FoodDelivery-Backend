@@ -8,10 +8,10 @@ datasource db {
 }
 
 model Client {
-  idClient     Int        @id @default(autoincrement())
+  idClient     Int        @id @unique(map: "idClient") @default(autoincrement())
   NomClient    String?    @db.VarChar(50)
   PrenomClient String?    @db.VarChar(50)
-  email        String?    @db.VarChar(50) @unique
+  email        String?    @unique(map: "email") @db.VarChar(50)
   mdp          String?    @db.VarChar(50)
   numTlf       String?    @db.VarChar(50)
   Commande     Commande[]
@@ -19,7 +19,7 @@ model Client {
 }
 
 model Commande {
-  idCommande     Int            @id @default(autoincrement())
+  idCommande     Int            @id
   prixTotal      Int?
   address        String?        @db.VarChar(50)
   deliveryNotes  String?        @db.VarChar(50)
@@ -34,10 +34,10 @@ model Commande {
 }
 
 model Items {
-  idMenu     Int 
+  idMenu     Int
   idCommande Int
   size       String?  @db.VarChar(50)
-  quantity   Int
+  quantity   Int?
   notes      String?  @db.VarChar(200)
   Menu       Menu     @relation(fields: [idMenu], references: [idMenu], onUpdate: Restrict, map: "Items_ibfk_1")
   Commande   Commande @relation(fields: [idCommande], references: [idCommande], onUpdate: Restrict, map: "Items_ibfk_2")
@@ -47,7 +47,7 @@ model Items {
 }
 
 model DeliveryPerson {
-  idPerson Int        @id @default(autoincrement())
+  idPerson Int        @id
   Nom      String?    @db.VarChar(50)
   Prenom   String?    @db.VarChar(50)
   numTel   String?    @db.VarChar(50)
@@ -67,33 +67,33 @@ model Evalue {
 }
 
 model Menu {
-  idMenu       Int        @id @default(autoincrement())
+  idMenu       Int        @id
   nomMenu      String?    @db.VarChar(50)
   price        Int?
-  ingredients  String?    @db.VarChar(50)
+  ingredients  String?    @db.VarChar(500)
   calories     Int?
   rating       Decimal?   @db.Decimal(15, 2)
-  imgMenu      String?    @db.VarChar(50)
+  imgMenu      String?    @db.VarChar(500)
   idRestaurant Int
-  Items     Items[]
+  Items        Items[]
   Restaurant   Restaurant @relation(fields: [idRestaurant], references: [idRestaurant], onUpdate: Restrict, map: "Menu_ibfk_1")
 
   @@index([idRestaurant], map: "idRestaurant")
 }
 
 model Restaurant {
-  idRestaurant Int          @id @default(autoincrement())
+  idRestaurant Int          @id
   nom          String?      @db.VarChar(50)
-  img          String?      @db.VarChar(200)
+  img          String?      @db.VarChar(1000)
   address      String?      @db.VarChar(50)
-  phone        String?      @db.VarChar(50)
+  phone        String       @db.VarChar(50)
   mapWeb       String?      @db.VarChar(50)
   map          String?      @db.VarChar(50)
   fb           String?      @db.VarChar(50)
   fbWeb        String?      @db.VarChar(50)
   ig           String?      @db.VarChar(50)
   igWeb        String?      @db.VarChar(50)
-  rating       String?      @db.VarChar(50)
+  rating       Float?
   Evalue       Evalue[]
   Menu         Menu[]
   appartient   appartient[]
