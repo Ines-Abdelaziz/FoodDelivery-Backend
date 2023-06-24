@@ -72,13 +72,13 @@ try {
 module.exports = { getAllRestaurants, getMenu, getDetails,
 
 addRating: async (RatingData) => {
-const {idRestaurant, idClient, rating, comment } = RatingData;
+const {idRestaurant, idClient, note, commentaire } = RatingData;
 return await  prisma.Evalue.create({
     data: {
         idRestaurant: idRestaurant,
         idClient: idClient,
-        note:rating,
-        commentaire:comment,
+        note:note,
+        commentaire:commentaire,
     },
 });
 },

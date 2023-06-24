@@ -60,9 +60,9 @@ exports.getDetails = async (req, res) => {
 }
 exports.addRating = async (req, res) => {
     console.log(req.body)
-    const { idRestaurant,rating, comment } = req.body;
+    const { idRestaurant,note, commentaire } = req.body;
     try {
-        if (!rating || !comment) {
+        if (!note || !commentaire) {
             return res.status(400).json({ error: 'Invalid rating data' });
         }
     RatingData=req.body;
