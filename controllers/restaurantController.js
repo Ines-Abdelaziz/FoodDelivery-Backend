@@ -59,6 +59,7 @@ exports.getDetails = async (req, res) => {
     }
 }
 exports.addRating = async (req, res) => {
+    console.log(req.body)
     const { idRestaurant,rating, comment } = req.body;
     try {
         if (!rating || !comment) {
@@ -67,10 +68,10 @@ exports.addRating = async (req, res) => {
     RatingData=req.body;
     RatingData.idRestaurant=parseInt(idRestaurant);
     const createdRating = await RestaurantModel.addRating(RatingData);
-    const ratings = await RestaurantModel.getRestaurantRatings(idRestaurant);
+    const ratings = await RestaurantModel.getRestaurantRatings(parseInt(idRestaurant));
      const ratingsSum = ratings.reduce((acc, rating) => acc + rating.note, 0);
      const generalRating = ratingsSum / ratings.length;
-     await RestaurantModel.updateRating(req.params.id, generalRating);
+     await RestaurantModel.updateRating(idRestaurant, generalRating);
     res.status(200).json({ message: 'Rating made successfully', rating: createdRating });
     } catch (error) {
         console.error('Error storing rating:', error);
