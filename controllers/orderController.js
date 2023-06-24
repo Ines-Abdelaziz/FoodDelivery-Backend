@@ -16,8 +16,9 @@ module.exports = {
         const createdOrder = await OrderModel.createCommande(orderData);
         const itemsData = {orderData};
         const createdItems = await OrderModel.createItems(itemsData);
+        const delivery= await OrderModel.getDelivery(orderData.idPerson)
           // Return a success response with the created order and items
-          return res.status(200).json({ message: 'Order created successfully', order: createdOrder });
+          return res.status(200).json(delivery);
       } catch (error) {
         // Handle any errors
         return res.status(500).json({ error: error.message});

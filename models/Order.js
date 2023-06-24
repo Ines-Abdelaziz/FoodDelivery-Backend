@@ -30,5 +30,10 @@ module.exports={
           })
         )
       );
-    }
+    },
+    getDelivery: async (id) => {
+      return await prisma.deliveryPerson.findFirst({
+          where: { idPerson: parseInt(id) },
+      });     
+      }
 };

@@ -51,6 +51,7 @@ model DeliveryPerson {
   Nom      String?    @db.VarChar(50)
   Prenom   String?    @db.VarChar(50)
   numTel   String?    @db.VarChar(50)
+  email    String?    @db.VarChar(50)
   Commande Commande[]
 }
 
