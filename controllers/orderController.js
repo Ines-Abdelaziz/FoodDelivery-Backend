@@ -1,6 +1,12 @@
 
 const OrderModel = require('../models/Order');
 const UserModel = require('../models/User');
+const admin = require('firebase-admin');
+const serviceAccount = require('./serviceAccountKey.json');
+        admin.initializeApp({
+          credential: admin.credential.cert(serviceAccount),
+  });
+
 module.exports = {
     validate: async (req, res) => {
       try {
@@ -20,15 +26,10 @@ module.exports = {
         const itemsData = {orderData};
         const createdItems = await OrderModel.createItems(itemsData);
         const delivery= await OrderModel.getDelivery(orderData.idPerson)
-        const admin = require('firebase-admin');
+        
 
         // Replace `path/to/serviceAccountKey.json` with the actual path to your downloaded key file
-        const serviceAccount = require('./serviceAccountKey.json');
-
-        admin.initializeApp({
-          credential: admin.credential.cert(serviceAccount),
-        });
-
+        
         const user=await UserModel.getinfo(idClient);
         const deviceToken = user.token;
         console.log(deviceToken)
@@ -47,4 +48,24 @@ module.exports = {
         // Return a success response with the created order and items
     } 
   },
+
+  notif:async(req,res)=>{
+    try{
+      const { id, title, body} = req.body;
+      const user=await UserModel.getinfo(id);
+        const deviceToken = user.token;
+        console.log(deviceToken)
+        const payload = {
+          notification: {
+            title: title,
+            body: body,
+          },
+        };
+        await admin.messaging().sendToDevice(deviceToken, payload);
+        res.status(200).json(res.message);
+    }catch(error){
+      console.error(error);
+      res.status(500).json({ message: 'Internal server error' });
+    }
+  }
 };
