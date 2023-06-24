@@ -5,5 +5,4 @@ const userController = require('../controllers/userController');
 router.post('/register', userController.register);
 router.post('/login', userController.login);
 router.get('/:id',userController.getinfo);
-router.post('/token',userController.addToken);
 module.exports = router;
