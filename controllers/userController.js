@@ -20,7 +20,7 @@ module.exports = {
         numTlf,
       });
 
-      res.status(201).json({ message: 'Registration successful', user: newUser });
+      res.status(201).json(newUser);
     } catch (error) {
       console.error(error);
       res.status(500).json({ message: 'Internal server error', error:error });
@@ -64,6 +64,19 @@ module.exports = {
       res.status(500).json({ message: 'Internal server error' });
     }
   }
+  addToken: async (req, res) => {
+    try {
+      
+      const {idClient, token} = req.body;
+      const id = await User.addToken(idClient,token);
+
+      res.status(201).json(newUser);
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({ message: 'Internal server error', error:error });
+    }
+  },
+  
   
 
 };

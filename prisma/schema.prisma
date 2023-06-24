@@ -14,6 +14,7 @@ model Client {
   email        String?    @unique(map: "email") @db.VarChar(50)
   mdp          String?    @db.VarChar(50)
   numTlf       String?    @db.VarChar(50)
+  token        String?    @db.VarChar(200)
   Commande     Commande[]
   Evalue       Evalue[]
 }
@@ -51,6 +52,7 @@ model DeliveryPerson {
   Nom      String?    @db.VarChar(50)
   Prenom   String?    @db.VarChar(50)
   numTel   String?    @db.VarChar(50)
+  email    String?    @db.VarChar(50)
   Commande Commande[]
 }
 
