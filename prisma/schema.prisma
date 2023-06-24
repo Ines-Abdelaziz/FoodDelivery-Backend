@@ -14,6 +14,7 @@ model Client {
   email        String?    @unique(map: "email") @db.VarChar(50)
   mdp          String?    @db.VarChar(50)
   numTlf       String?    @db.VarChar(50)
+  token        String?    @db.VarChar(200)
   Commande     Commande[]
   Evalue       Evalue[]
 }
