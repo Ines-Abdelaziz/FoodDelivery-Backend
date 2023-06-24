@@ -59,16 +59,15 @@ exports.getDetails = async (req, res) => {
     }
 }
 exports.addRating = async (req, res) => {
-    const { idClient,rating, comment } = req.body;
+    const { idRestaurant,rating, comment } = req.body;
     try {
         if (!rating || !comment) {
             return res.status(400).json({ error: 'Invalid rating data' });
         }
     RatingData=req.body;
-    RatingData.idRestaurant=parseInt(req.params.id);
+    RatingData.idRestaurant=parseInt(idRestaurant);
     const createdRating = await RestaurantModel.addRating(RatingData);
-    const ratings = await RestaurantModel.getRestaurantRatings(req.params.id);
-    const sumOfRatings = ratings.reduce((total, rating) => total + rating.note, 0);
+    const ratings = await RestaurantModel.getRestaurantRatings(idRestaurant);
      const ratingsSum = ratings.reduce((acc, rating) => acc + rating.note, 0);
      const generalRating = ratingsSum / ratings.length;
      await RestaurantModel.updateRating(req.params.id, generalRating);
