@@ -22,6 +22,7 @@ module.exports = {
       } catch (error) {
         // Handle any errors
         return res.status(500).json({ error: error.message});
-      }
-    },
+        // Return a success response with the created order and items
+    } 
+  },
 };
